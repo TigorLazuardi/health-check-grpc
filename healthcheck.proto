@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package healthcheck;
+
+option go_package = "github.com/tigorlazuardi/health-check-grpc;hcproto";
+
+service HealthCheck {
+    rpc Subscribe(SubPayload) returns (stream HealthCheckMap) {}
+    rpc Unsubscribe(SubPayload) returns (Ack) {}
+}
+
+message SubPayload {
+    string id = 1;
+}
+
+message Ack {
+    string message = 1;
+}
+
+message HealthCheckMap {
+   map<string, EntityStatus> entity = 1;     
+}
+
+message EntityStatus {
+    int32 code = 1;
+    string status = 2;
+    string message = 3;
+}
